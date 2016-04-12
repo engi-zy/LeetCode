@@ -1,0 +1,65 @@
+/*
+You are given two linked lists representing two non-negative numbers. The digits are stored in reverse order and each of their nodes contain a single digit. Add the two numbers and return it as a linked list.
+
+Input: (2 -> 4 -> 3) + (5 -> 6 -> 4)
+Output: 7 -> 0 -> 8
+*/
+
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+         ListNode result=null;
+         int flag=0;//进位标志
+         
+         
+         ListNode temp_result=null;
+         if(l1!=null && l2!=null){
+             result=new ListNode((l1.val+l2.val)%10);
+             flag=(l1.val+l2.val)/10;
+             temp_result=result;
+         }else{
+             return result;
+         }
+         
+         l1=l1.next;
+         l2=l2.next;
+         while(l1!=null || l2!=null){
+             if(l1!=null && l2!=null){
+                 temp_result.next=new ListNode((l1.val+l2.val+flag)%10);
+                 flag=(l1.val+l2.val+flag)/10;
+                 l1=l1.next;
+                 l2=l2.next;
+                 temp_result=temp_result.next;
+                 continue;
+             }
+             if(l1!=null && l2==null){
+                 temp_result.next=new ListNode((l1.val+flag)%10);
+                 flag=(l1.val+flag)/10;
+                 l1=l1.next;
+                 temp_result=temp_result.next;
+                 continue;
+             }
+             if(l1==null && l2!=null){
+                 temp_result.next=new ListNode((l2.val+flag)%10);
+                 flag=(l2.val+flag)/10;
+                 l2=l2.next;
+                 temp_result=temp_result.next;
+                 continue;
+             }
+         }
+         
+         if(flag==1){
+             temp_result.next=new ListNode(flag);
+         }
+         
+         return result;
+    }
+}
+
